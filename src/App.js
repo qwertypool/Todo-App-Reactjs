@@ -65,12 +65,12 @@ function App({ Component }) {
         <TodoItems
           todos={todos}
           deleteItems={deleteItems}
-          editItems={editItems}
+          // editItems={editItems}
         />
         <AddTodo
           addTodoItems={addTodoItems}
-          toggleSubmit={toggleSubmit}
-          editItemName={editItemName}
+          // toggleSubmit={toggleSubmit}
+          // editItemName={editItemName}
         />
       </VStack>
     </div>

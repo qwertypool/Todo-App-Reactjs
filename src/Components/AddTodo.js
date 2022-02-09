@@ -35,30 +35,32 @@ function AddTodo({ addTodoItems, toggleSubmit, editItemName }) {
   return (
     <form onSubmit={onSubmit}>
       <HStack p="2" my="4">
-        {!editItemName.length ? (
+        {/* {!editItemName.length ? (
           <Input
             variant="filled"
             value={editItemName}
             onChange={handleOnChange}
           />
-        ) : (
+        ) : */}
+        {
           <Input
             variant="filled"
             placeholder="Enter your task for today"
             value={content}
             onChange={handleOnChange}
           />
-        )}
-
+        }
+        {/* 
         {toggleSubmit ? (
           <Button colorScheme="purple" px="8" type="submit">
             Edit Todo
           </Button>
-        ) : (
+        ) : */}
+        {
           <Button colorScheme="pink" px="8" type="submit">
             Add Todo
           </Button>
-        )}
+        }
       </HStack>
     </form>
   );
