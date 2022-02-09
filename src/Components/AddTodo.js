@@ -1,9 +1,15 @@
 import React from "react";
 import { Button, HStack, Input, useToast } from "@chakra-ui/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { nanoid } from "nanoid";
 
-function AddTodo({ addTodoItems, toggleSubmit, editItemName }) {
+function AddTodo({
+  addTodoItems,
+  isEditing,
+  editItem,
+  updateValue,
+  setIsEditing,
+}) {
   const toast = useToast();
   const [content, setContent] = useState("");
   //const [toggleSubmit, setToggleSubmit] = useState(true);
@@ -20,6 +26,12 @@ function AddTodo({ addTodoItems, toggleSubmit, editItemName }) {
       });
       return;
     }
+    if (isEditing) {
+      updateValue(editItem.id, content);
+      setContent("");
+      setIsEditing(false);
+      return;
+    }
     const newTodo = {
       id: nanoid(),
       itemName: content,
@@ -27,6 +39,12 @@ function AddTodo({ addTodoItems, toggleSubmit, editItemName }) {
     addTodoItems(newTodo);
     setContent("");
   };
+
+  useEffect(() => {
+    console.log("here");
+    setContent(editItem.itemName ?? "");
+  }, [editItem]);
+  console.log("outside");
 
   const handleOnChange = (event) => {
     setContent(event.target.value);
@@ -50,17 +68,16 @@ function AddTodo({ addTodoItems, toggleSubmit, editItemName }) {
             onChange={handleOnChange}
           />
         }
-        {/* 
-        {toggleSubmit ? (
+
+        {isEditing ? (
           <Button colorScheme="purple" px="8" type="submit">
             Edit Todo
           </Button>
-        ) : */}
-        {
+        ) : (
           <Button colorScheme="pink" px="8" type="submit">
             Add Todo
           </Button>
-        }
+        )}
       </HStack>
     </form>
   );

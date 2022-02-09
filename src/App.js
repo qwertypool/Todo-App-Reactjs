@@ -7,41 +7,35 @@ import AddTodo from "./Components/AddTodo";
 import { useState, useEffect } from "react";
 
 function App({ Component }) {
-  const initialTodo = [
-    {
-      id: 1,
-      itemName: "Give HackerEarth Test",
-    },
-    {
-      id: 2,
-      itemName: "Write anonymous functions and arrow functions in JS",
-    },
-    {
-      id: 3,
-      itemName: "Watch SpiderMan Movie",
-    },
-    {
-      id: 4,
-      itemName: "Sleep 12 hours",
-    },
-  ];
-
   const [todos, setTodos] = useState(
     () => JSON.parse(localStorage.getItem("todos")) || []
   );
 
-  const [toggleSubmit, setToggleSubmit] = useState(true);
-  const [editItemName, setEditItemName] = useState("");
+  const [isEditing, setIsEditing] = useState(false);
+  const [editItem, setEditItem] = useState({});
 
   const deleteItems = (id) => {
     const todoItems = todos.filter((todo) => {
       return id !== todo.id;
     });
+    console.log(todoItems);
     setTodos(todoItems);
   };
 
   const addTodoItems = (newTodo) => {
     setTodos([...todos, newTodo]);
+  };
+  const updateValue = (id, value) => {
+    setTodos(
+      todos.map((todo) => {
+        if (todo.id === id) {
+          todo.itemName = value;
+          return todo;
+        } else {
+          return todo;
+        }
+      })
+    );
   };
 
   const editItems = (id) => {
@@ -49,12 +43,13 @@ function App({ Component }) {
       return item.id === id;
     });
     console.log(newEditItem);
-    setToggleSubmit(!toggleSubmit);
-    setEditItemName(newEditItem.itemName);
+    setIsEditing(true);
+    setEditItem({ ...newEditItem });
   };
 
   useEffect(() => {
     localStorage.setItem("todos", JSON.stringify(todos));
+    console.log("todos", todos);
   }, [todos]);
 
   return (
@@ -65,12 +60,14 @@ function App({ Component }) {
         <TodoItems
           todos={todos}
           deleteItems={deleteItems}
-          // editItems={editItems}
+          editItems={editItems}
         />
         <AddTodo
           addTodoItems={addTodoItems}
-          // toggleSubmit={toggleSubmit}
-          // editItemName={editItemName}
+          isEditing={isEditing}
+          editItem={editItem}
+          updateValue={updateValue}
+          setIsEditing={setIsEditing}
         />
       </VStack>
     </div>
